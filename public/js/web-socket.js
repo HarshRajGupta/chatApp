@@ -12,10 +12,12 @@ function append(message, status) {
     messageContainer.appendChild(messageElement);
 }
 
-let name = prompt("Enter your name join");
-while (name === null) {
-    name = prompt("Enter your name join");
+let name = prompt("Enter your name to join");
+
+while (name === null || name === "") {
+    name = prompt("Enter your name to join");
 }
+
 if (name != null) {
     console.log(`${name}: welcome to the chat`);
     socket.emit("new-User-Joined", name);
