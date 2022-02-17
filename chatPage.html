@@ -54,6 +54,13 @@
             background-color: lightgreen;
         }
 
+        .joined {
+            display: block;
+            margin: 4px auto;
+            clear: both;
+            background-color: yellow;
+        }
+
         #send-container {
             width: 60vw;
             display: flex;
@@ -79,7 +86,7 @@
         }
     </style>
 
-    <title>Document</title>
+    <title>ChatBot</title>
 </head>
 
 <body>
@@ -124,7 +131,7 @@
 
         socket.on('user-Joined', user => {
             console.log(`${user} joined the chat`);
-            append(`${user} joined the chat`, 'receive');
+            append(`${user} joined the chat`, 'joined');
         })
 
         socket.on('receive', data => {
