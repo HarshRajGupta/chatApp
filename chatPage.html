@@ -127,10 +127,14 @@
             messageContainer.appendChild(messageElement);
         }
 
-        const name = prompt("Enter your name join");
+        let name = prompt("Enter your name join");
+        while(name === null) {
+            name = prompt("Enter your name join");
+        }
         if (name != null) {
             console.log(`${name}: welcome to the chat`)
-            socket.emit('new-User-Joined', name);   
+            socket.emit('new-User-Joined', name);
+            append(`😋 You joined the chat😋`, 'joined');
         }
 
         form.addEventListener('submit', (e) => {
