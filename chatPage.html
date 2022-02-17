@@ -39,7 +39,8 @@
             max-width: 33%;
             border: 2px solid black;
             border-radius: 10px;
-            margin: 4px;
+            margin: 5px;
+            height: fit-content;
         }
 
         .receive {
@@ -56,19 +57,28 @@
 
         .joined {
             display: block;
-            margin: 4px auto;
+            margin: 5px auto;
             clear: both;
             background-color: yellow;
         }
 
+        .left {
+            display: block;
+            margin: 5px auto;
+            clear: both;
+            background-color: red;
+        }
+
         #send-container {
             width: 60vw;
-            display: flex;
+            display: grid;
             margin: 10px auto;
+            grid-template-columns: auto auto;
+            justify-content: space-evenly;
         }
 
         #send-container input {
-            width: 55vw;
+            min-width: 50vw;
             height: 30px;
             border-radius: 6px;
             border: none;
@@ -78,11 +88,12 @@
         }
 
         #send-container button {
-            width: 5vw;
+            width: fit-content;
             height: 30px;
             background: green;
             border-radius: 12px;
             border: none;
+            padding: 6px 12px;
         }
     </style>
 
@@ -117,14 +128,18 @@
         }
 
         const name = prompt("Enter your name join");
-        console.log(`${name}: welcome to the chat`)
-        socket.emit('new-User-Joined', name);
+        if (name != null) {
+            console.log(`${name}: welcome to the chat`)
+            socket.emit('new-User-Joined', name);   
+        }
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             const message = messageInput.value;
             append(`${message}`, 'sent');
-            socket.emit('send', message);
+            if (name != null) {
+                socket.emit('send', message);
+            }
             messageInput.value = "";
         })
 
@@ -138,6 +153,11 @@
             console.log(`${data.sender}: ${data.message}`);
             append(`${data.sender}: ${data.message}`, 'receive');
         })
+        socket.on('left', name => {
+            console.log(`${name}: left the chat`);
+            append(`${name} left the chat`, 'left');
+        })
+        
     </script>
 </body>
 
