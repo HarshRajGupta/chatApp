@@ -1,7 +1,11 @@
-const port = process.env.PORT || 3000;
+const app = require('express')();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
-const io = require('socket.io')(port);
-console.log(`Listening at port ${port}`);
+app.get('/', function(req, res) {
+   res.sendfile(`${__dirname}/chatPage.html`);
+});
+
 const users = {};
 
 io.on('connection', socket => {
@@ -15,3 +19,8 @@ io.on('connection', socket => {
     });
 
 })
+
+const port = process.env.PORT || 4000;
+http.listen(port, function() {
+    console.log(`listening on ${port}`);
+ });
