@@ -2,167 +2,20 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        * {
-            padding: 0;
-            margin: 0;
-            width: max-content;
-            height: max-content;
-            transition: all 2s ease-in-out;
-            box-sizing: border-box;
-            object-fit: contain;
-            overflow-x: hidden;
-        }
-
-        body {
-            height: 100vh;
-            width: 100vw;
-        }
-
-        .cotainer {
-            width: 60vw;
-            height: 70vh;
-            overflow-y: auto;
-            background: lightblue;
-            display: block;
-            margin: 0 auto;
-            margin-top: 14vh;
-            padding: 2rem;
-            border: 2px solid black;
-            border-radius: 12px;
-        }
-
-        .message {
-            padding: 10px;
-            max-width: 33%;
-            border: 2px solid black;
-            border-radius: 10px;
-            margin: 5px;
-            height: fit-content;
-        }
-
-        .receive {
-            float: left;
-            clear: both;
-            background-color: skyblue;
-        }
-
-        .sent {
-            float: right;
-            clear: both;
-            background-color: lightgreen;
-        }
-
-        .joined {
-            display: block;
-            margin: 5px auto;
-            clear: both;
-            background-color: yellow;
-        }
-
-        .left {
-            display: block;
-            margin: 5px auto;
-            clear: both;
-            background-color: red;
-        }
-
-        #send-container {
-            width: 60vw;
-            display: grid;
-            margin: 10px auto;
-            grid-template-columns: auto auto;
-            justify-content: space-evenly;
-        }
-
-        #send-container input {
-            min-width: 50vw;
-            height: 30px;
-            border-radius: 6px;
-            border: none;
-            border-bottom: 2px solid grey;
-            overflow: hidden;
-            border-radius: 0;
-        }
-
-        #send-container button {
-            width: fit-content;
-            height: 30px;
-            background: green;
-            border-radius: 12px;
-            border: none;
-            padding: 6px 12px;
-        }
-    </style>
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css">
     <title>ChatBot</title>
 </head>
 
 <body>
-    <div class="cotainer">
-        
-    </div><!-- /.cotainer -->
+    <div class="cotainer"></div><!-- /.cotainer -->
     <form action="#" id="send-container">
-        <input type="text" name="sentMessage" id="sentMessage">
-        <button type="submit">
-            Send
-        </button>
+        <input type="text" name="sentMessage" id="sentMessage" />
+        <button type="submit">Send</button>
     </form><!-- /#send-container -->
     <script src="/socket.io/socket.io.js"></script>
-
-    <script>
-        const socket = io();
-
-        const form = document.getElementById('send-container');
-        const messageInput = document.getElementById('sentMessage');
-        const messageContainer = document.querySelector('.cotainer');
-
-        function append(message, status) {
-            const messageElement = document.createElement('div');
-            messageElement.innerHTML = message;
-            messageElement.classList.add('message');
-            messageElement.classList.add(status);
-            messageContainer.appendChild(messageElement);
-        }
-
-        let name = prompt("Enter your name join");
-        while(name === null) {
-            name = prompt("Enter your name join");
-        }
-        if (name != null) {
-            console.log(`${name}: welcome to the chat`)
-            socket.emit('new-User-Joined', name);
-            append(`😋 You joined the chat😋`, 'joined');
-        }
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const message = messageInput.value;
-            append(`${message}`, 'sent');
-            if (name != null) {
-                socket.emit('send', message);
-            }
-            messageInput.value = "";
-        })
-
-
-        socket.on('user-Joined', user => {
-            console.log(`${user} joined the chat`);
-            append(`${user} joined the chat`, 'joined');
-        })
-
-        socket.on('receive', data => {
-            console.log(`${data.sender}: ${data.message}`);
-            append(`${data.sender}: ${data.message}`, 'receive');
-        })
-        socket.on('left', name => {
-            console.log(`${name}: left the chat`);
-            append(`${name} left the chat`, 'left');
-        })
-        
-    </script>
+    <script src="/js/web-socket.js"></script>
 </body>
 
 </html>
