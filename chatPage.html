@@ -6,79 +6,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * {
-    padding: 0;
-    margin: 0;
-    width: max-content;
-    height: max-content;
-    transition: all 2s ease-in-out;
-    box-sizing: border-box;
-    object-fit: contain;
-    overflow-x: hidden;
-}
+            padding: 0;
+            margin: 0;
+            width: max-content;
+            height: max-content;
+            transition: all 2s ease-in-out;
+            box-sizing: border-box;
+            object-fit: contain;
+            overflow-x: hidden;
+        }
 
-body {
-    height: 100vh;
-    width: 100vw;
-}
+        body {
+            height: 100vh;
+            width: 100vw;
+        }
 
-.cotainer {
-    width: 60vw;
-    height: 70vh;
-    overflow-y: auto;
-    background: lightblue;
-    display: block;
-    margin: 0 auto;
-    margin-top: 14vh;
-    padding: 2rem;
-    border: 2px solid black;
-    border-radius: 12px;
-}
+        .cotainer {
+            width: 60vw;
+            height: 70vh;
+            overflow-y: auto;
+            background: lightblue;
+            display: block;
+            margin: 0 auto;
+            margin-top: 14vh;
+            padding: 2rem;
+            border: 2px solid black;
+            border-radius: 12px;
+        }
 
-.message {
-    padding: 10px;
-    max-width: 33%;
-    border: 2px solid black;
-    border-radius: 10px;
-    margin: 4px;
-}
+        .message {
+            padding: 10px;
+            max-width: 33%;
+            border: 2px solid black;
+            border-radius: 10px;
+            margin: 4px;
+        }
 
-.receive {
-    float: left;
-    clear: both;
-    background-color: skyblue;
-}
+        .receive {
+            float: left;
+            clear: both;
+            background-color: skyblue;
+        }
 
-.sent {
-    float: right;
-    clear: both;
-    background-color: lightgreen;
-}
+        .sent {
+            float: right;
+            clear: both;
+            background-color: lightgreen;
+        }
 
-#send-container {
-    width: 60vw;
-    display: flex;
-    margin: 10px auto;
-}
+        #send-container {
+            width: 60vw;
+            display: flex;
+            margin: 10px auto;
+        }
 
-#send-container input {
-    width: 55vw;
-    height: 30px;
-    border-radius: 6px;
-    border: none;
-    border-bottom: 2px solid grey;
-    overflow: hidden;
-    border-radius: 0;
-}
+        #send-container input {
+            width: 55vw;
+            height: 30px;
+            border-radius: 6px;
+            border: none;
+            border-bottom: 2px solid grey;
+            overflow: hidden;
+            border-radius: 0;
+        }
 
-#send-container button {
-    width: 5vw;
-    height: 30px;
-    background: green;
-    border-radius: 12px;
-    border: none;
-}
+        #send-container button {
+            width: 5vw;
+            height: 30px;
+            background: green;
+            border-radius: 12px;
+            border: none;
+        }
     </style>
-    
+
     <title>Document</title>
 </head>
 
@@ -102,40 +102,40 @@ body {
     <script>
         const socket = io();
 
-const form = document.getElementById('send-container');
-const messageInput = document.getElementById('sentMessage');
-const messageContainer = document.querySelector('.cotainer');
+        const form = document.getElementById('send-container');
+        const messageInput = document.getElementById('sentMessage');
+        const messageContainer = document.querySelector('.cotainer');
 
-function append(message, status) {
-    const messageElement = document.createElement('div');
-    messageElement.innerHTML = message;
-    messageElement.classList.add('message');
-    messageElement.classList.add(status);
-    messageContainer.appendChild(messageElement);
-}
+        function append(message, status) {
+            const messageElement = document.createElement('div');
+            messageElement.innerHTML = message;
+            messageElement.classList.add('message');
+            messageElement.classList.add(status);
+            messageContainer.appendChild(messageElement);
+        }
 
-const name = prompt("Enter your name join");
-console.log(`${name}: welcome to the chat`)
-socket.emit('new-User-Joined', name);
+        const name = prompt("Enter your name join");
+        console.log(`${name}: welcome to the chat`)
+        socket.emit('new-User-Joined', name);
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const message = messageInput.value;
-    append(`${message}`, 'sent');
-    socket.emit('send', message);
-    messageInput.value = "";
-})
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const message = messageInput.value;
+            append(`${message}`, 'sent');
+            socket.emit('send', message);
+            messageInput.value = "";
+        })
 
 
-socket.on('user-Joined', user => {
-    console.log(`${user} joined the chat`);
-    append(`${user} joined the chat`, 'receive');
-})
+        socket.on('user-Joined', user => {
+            console.log(`${user} joined the chat`);
+            append(`${user} joined the chat`, 'receive');
+        })
 
-socket.on('receive', data => {
-    console.log(`${data.sender}: ${data.message}`);
-    append(`${data.sender}: ${data.message}`, 'receive');
-})
+        socket.on('receive', data => {
+            console.log(`${data.sender}: ${data.message}`);
+            append(`${data.sender}: ${data.message}`, 'receive');
+        })
     </script>
 </body>
 

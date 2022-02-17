@@ -2,8 +2,8 @@ const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-app.get('/', function(req, res) {
-   res.sendfile(`${__dirname}/chatPage.html`);
+app.get('/', function (req, res) {
+    res.sendfile(`${__dirname}/chatPage.html`);
 });
 
 const users = {};
@@ -15,12 +15,12 @@ io.on('connection', socket => {
         socket.broadcast.emit('user-Joined', name);
     });
     socket.on('send', message => {
-        socket.broadcast.emit('receive', {message: message, sender: users[socket.id]});
+        socket.broadcast.emit('receive', { message: message, sender: users[socket.id] });
     });
 
 })
 
-const port = process.env.PORT || 4000;
-http.listen(port, function() {
+const port = process.env.PORT || 2202;
+http.listen(port, function () {
     console.log(`listening on ${port}`);
- });
+});
