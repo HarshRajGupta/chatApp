@@ -25,6 +25,12 @@
     padding: 2rem;
     border: 2px solid black;
     border-radius: 12px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+ .cotainer::-webkit-scrollbar {
+    display: none;
   }
 
   .message {
